@@ -10,11 +10,16 @@ const SignUp = () => {
     const {createUser} = useContext(AuthContext)
 
     const onSubmit = data => {
-        
+        console.log(data);
         createUser(data.email, data.password)
         .then(result => {
             const loggedUser = result.user;
             console.log(loggedUser);
+            updateUserProfile(data.name, data.photoURL)
+            .then(() => {
+                console.log("User profile info update");
+            })
+            .catch(error => console.log(error))
         })
     };
 
@@ -37,6 +42,13 @@ const SignUp = () => {
                                 </label>
                                 <input type="text" {...register("name", { required: true })} name="name" placeholder="name" className="input input-bordered" />
                                 {errors.name && <span className="text-red-600">This field is required</span>}
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Photo URL</span>
+                                </label>
+                                <input type="text" {...register("photoURL", { required: true })}  placeholder="photo URL" className="input input-bordered" />
+                                {errors.photoURL && <span className="text-red-600">Photo URL field is required</span>}
                             </div>
                             <div className="form-control">
                                 <label className="label">
@@ -68,7 +80,7 @@ const SignUp = () => {
                                 
                             </div>
                         </form>
-                        <p><small>Already have an acoount? <Link to="/login">Please Login</Link></small></p>
+                        <p className="text-center pb-4"><small>Already have an acoount? <Link className="text-green-600" to="/login">Please Login</Link></small></p>
                     </div>
                 </div>
             </div>
